@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import gsap from "gsap";
 
-const TakePhotoButton = ({ handleClick }) => {
+const SmallTakePhotoButton = ({ handleClick }) => {
   const buttonRef = useRef(null);
 
   useEffect(() => {
@@ -30,14 +30,14 @@ const TakePhotoButton = ({ handleClick }) => {
   };
 
   return (
-    <div className="border-4 w-20 h-20 border-yellow-500 rounded-full">
+    <div className="border-4 w-16 h-16 border-yellow-500 rounded-full">
       <div
         ref={buttonRef}
-        className="m-1 bg-white rounded-full w-16 h-16 cursor-pointer"
+        className="m-1 bg-white rounded-full w-12 h-12 cursor-pointer"
         onClick={buttonClickHandler}
       ></div>
     </div>
   );
 };
 
-export default TakePhotoButton;
+export default SmallTakePhotoButton;
