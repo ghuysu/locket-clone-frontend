@@ -6,7 +6,7 @@ import CreateFeed from "./CreateFeed";
 import Feed from "../../components/Feed";
 import ReactBar from "../../components/ReactBar";
 
-const Main = ({ user, signInKey }) => {
+const Main = ({ user, signInKey, signout, setChat }) => {
   const contentRef = useRef(null);
   const reactBarRef = useRef(null);
   const [feeds, setFeeds] = useState([]);
@@ -15,29 +15,28 @@ const Main = ({ user, signInKey }) => {
   const [maxFeed, setMaxFeed] = useState(-1);
   const [currentFeed, setCurrentFeed] = useState(null);
   const [editing, setEditing] = useState(false);
-
+  const [firstLoad, setFirstLoad] = useState(true);
   const [editDescription, setEditDescription] = useState("");
   const [editSendTo, setEditSendTo] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
   const [showReloadPopup, setShowReloadPopup] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const [isCommenting, setIsCommenting] = useState(false);
+  const [sendingComment, setSendingComment] = useState(false);
+  const [comment, setComment] = useState("");
   const [selectedUser, setSelectedUser] = useState({
     id: "everyone",
     fullname: "Everyone",
   });
+  const [turnOffCamera, setTurnOffCamera] = useState(false);
 
   useEffect(() => {
-    console.log({ maxFeed });
-  }, [maxFeed]);
-  useEffect(() => {
-    console.log({ page });
-  }, [page]);
-  useEffect(() => {
-    console.log({ feeds });
-  }, [feeds]);
-  useEffect(() => {
-    console.log({ currentFeed });
-  }, [currentFeed]);
+    if (page === 0) {
+      setTurnOffCamera(false);
+    } else {
+      setTurnOffCamera(true);
+    }
+  }, [page, turnOffCamera]);
 
   useEffect(() => {
     if (!currentFeed) return;
@@ -51,6 +50,48 @@ const Main = ({ user, signInKey }) => {
     const content = contentRef.current;
     gsap.fromTo(content, { opacity: 0 }, { opacity: 1, duration: 1 });
   }, []);
+
+  const sendMessage = async (friendId, comment, feedId) => {
+    try {
+      setSendingComment(true);
+      const response = await fetch(
+        `https://skn7vgp9-9876.asse.devtunnels.ms/message/${friendId}`,
+        {
+          method: "POST",
+          headers: {
+            "api-key": "ABC-XYZ-WWW",
+            authorization: signInKey,
+            "Content-Type": "application/json",
+            "user-id": user?._id,
+          },
+          body: JSON.stringify({
+            message: comment,
+            feedId: feedId,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (response.ok) {
+        console.log(data);
+        setChat((chat) => {
+          return chat.map((friendChat) => {
+            if (friendChat.friendId === friendId) {
+              friendChat.messages.push(data.metadata);
+            }
+            return friendChat;
+          });
+        });
+      } else {
+        console.error("Failed to send comment:", data.message);
+      }
+    } catch (error) {
+      console.error("Error sending comment:", error);
+    } finally {
+      setIsCommenting(false);
+      setComment("");
+      setSendingComment(false);
+    }
+  };
 
   const fetchFeeds = async (page) => {
     if (maxFeed === -1 && page >= feeds.length - 10 && !loading) {
@@ -70,7 +111,6 @@ const Main = ({ user, signInKey }) => {
           }
         );
         const data = await response.json();
-        console.log(data.metadata);
         if (response.ok) {
           if (data.metadata.length == 0) {
             setMaxFeed(feeds.length);
@@ -78,6 +118,9 @@ const Main = ({ user, signInKey }) => {
             setFeeds((prevV) => [...prevV, ...data.metadata]);
           }
         } else {
+          if (data.message === "User ID does not match token") {
+            signout();
+          }
           console.error("Failed to fetch feeds:", data.message);
         }
       } catch (error) {
@@ -106,8 +149,6 @@ const Main = ({ user, signInKey }) => {
           }
         );
         const data = await response.json();
-        console.log(data);
-        console.log(data.metadata);
         if (response.ok) {
           if (data.metadata.length == 0) {
             setMaxFeed(feeds.length);
@@ -115,6 +156,9 @@ const Main = ({ user, signInKey }) => {
             setFeeds((prevV) => [...prevV, ...data.metadata]);
           }
         } else {
+          if (data.message === "User ID does not match token") {
+            signout();
+          }
           console.error("Failed to fetch feeds:", data.message);
         }
       } catch (error) {
@@ -138,6 +182,8 @@ const Main = ({ user, signInKey }) => {
     if (contentRef.current && !loading) {
       setEditing(false);
       setLoading(true); // Chặn cuộn khi đang cuộn
+      setIsCommenting(false);
+      setComment("");
       setPage((oldV) => (oldV === 0 && direction < 0 ? 0 : oldV + direction));
       const scrollAmount = direction * window.innerHeight;
       contentRef.current.scrollBy({ top: scrollAmount, behavior: "smooth" });
@@ -154,6 +200,8 @@ const Main = ({ user, signInKey }) => {
   const handleTakePhotoBtn = () => {
     setLoading(true);
     setEditing(false);
+    setIsCommenting(false);
+    setComment("");
     contentRef.current.scrollTo({ top: 0, behavior: "smooth" });
     setTimeout(() => {
       setLoading(false);
@@ -248,6 +296,9 @@ const Main = ({ user, signInKey }) => {
           })
         );
       } else {
+        if (data.message === "User ID does not match token") {
+          signout();
+        }
         console.error("Failed to fetch feeds:", data.message);
         setShowReloadPopup(true);
       }
@@ -289,6 +340,9 @@ const Main = ({ user, signInKey }) => {
           })
         );
       } else {
+        if (data.message === "User ID does not match token") {
+          signout();
+        }
         console.error("Failed to fetch feeds:", data.message);
       }
     } catch (error) {
@@ -329,6 +383,9 @@ const Main = ({ user, signInKey }) => {
         );
         setMaxFeed((preV) => preV - 1);
       } else {
+        if (data.message === "User ID does not match token") {
+          signout();
+        }
         console.error("Failed to fetch feeds:", data.message);
       }
     } catch (error) {
@@ -341,14 +398,17 @@ const Main = ({ user, signInKey }) => {
   };
 
   useEffect(() => {
-    if (feeds.length === 0) return;
+    if (firstLoad === true) {
+      setFirstLoad(false);
+      return;
+    }
+
     if (selectedUser.id === "everyone") {
       handleGetAllFeeds();
     } else {
       console.log("2");
       handleGetCertainFeeds(selectedUser.id);
     }
-    console.log(selectedUser);
   }, [selectedUser]);
 
   return (
@@ -369,6 +429,7 @@ const Main = ({ user, signInKey }) => {
             user={user}
             signInKey={signInKey}
             handleReloadFeeds={handleReloadFeeds}
+            turnOffCamera={turnOffCamera}
           />
         </div>
         {feeds.length > 0 && (
@@ -439,6 +500,12 @@ const Main = ({ user, signInKey }) => {
             editing={editing}
             saveEdit={saveEdit}
             handleDeleteClick={handleDeleteClick}
+            isCommenting={isCommenting}
+            setIsCommenting={setIsCommenting}
+            comment={comment}
+            setComment={setComment}
+            sendMessage={sendMessage}
+            sendingComment={sendingComment}
           />
         </div>
       )}

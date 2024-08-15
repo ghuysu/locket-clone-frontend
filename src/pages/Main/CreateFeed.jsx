@@ -7,7 +7,13 @@ import "react-image-crop/dist/ReactCrop.css";
 import ReactCrop from "react-image-crop";
 import FriendLogo from "../../components/FriendLogo";
 
-const ImageFromCamera = ({ user, signInKey, setPage, handleReloadFeeds }) => {
+const ImageFromCamera = ({
+  user,
+  signInKey,
+  setPage,
+  handleReloadFeeds,
+  turnOffCamera,
+}) => {
   const contentRef = useRef(null);
   const cameraRef = useRef(null);
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -16,6 +22,13 @@ const ImageFromCamera = ({ user, signInKey, setPage, handleReloadFeeds }) => {
   const [process, setProcess] = useState(false);
   const [description, setDescription] = useState("");
   const [sendTo, setSendTo] = useState([]);
+
+  console.log({ turnOffCamera });
+  useEffect(() => {
+    if (turnOffCamera === true) {
+      handleRetakePhoto();
+    }
+  }, [turnOffCamera]);
 
   useEffect(() => {
     const content = contentRef.current;
@@ -41,6 +54,8 @@ const ImageFromCamera = ({ user, signInKey, setPage, handleReloadFeeds }) => {
   const handleRetakePhoto = () => {
     setPreviewUrl(null);
     setPhotoTaken(false);
+    setDescription("");
+    setSendTo([]);
   };
 
   const handleSavePhoto = async () => {
@@ -136,7 +151,14 @@ const ImageFromCamera = ({ user, signInKey, setPage, handleReloadFeeds }) => {
         </p>
         <div className="relative mt-8 w-[400px] h-[400px] z-0">
           <div className="absolute z-0 inset-0 rounded-[80px] border-[1px] border-yellow-500 overflow-hidden">
-            {previewUrl ? (
+            {turnOffCamera ? (
+              <img
+                src={"/public/assets/images/noneCamera.png"}
+                alt="Avatar Preview"
+                className="w-full h-full object-cover"
+                style={{ transform: "scaleX(-1)" }}
+              />
+            ) : previewUrl ? (
               <img
                 src={previewUrl}
                 alt="Avatar Preview"
@@ -243,7 +265,13 @@ const ImageFromCamera = ({ user, signInKey, setPage, handleReloadFeeds }) => {
   );
 };
 
-const ImageFromDevice = ({ user, signInKey, setPage, handleReloadFeeds }) => {
+const ImageFromDevice = ({
+  user,
+  signInKey,
+  setPage,
+  handleReloadFeeds,
+  turnOffCamera,
+}) => {
   const [imgSrc, setImgSrc] = useState("");
   const [crop, setCrop] = useState({ aspect: 1 }); // Crop mặc định với tỷ lệ 1:1
   const [completedCrop, setCompletedCrop] = useState(null);
@@ -255,6 +283,10 @@ const ImageFromDevice = ({ user, signInKey, setPage, handleReloadFeeds }) => {
   const fileInputRef = useRef(null);
   const imgRef = useRef(null);
   const contentRef = useRef(null);
+
+  useEffect(() => {
+    reinitState();
+  }, [turnOffCamera]);
 
   useEffect(() => {
     const content = contentRef.current;
@@ -305,6 +337,15 @@ const ImageFromDevice = ({ user, signInKey, setPage, handleReloadFeeds }) => {
     } else {
       setSendTo((old) => old.filter((i) => i !== friendId));
     }
+  };
+
+  const reinitState = () => {
+    setImgSrc("");
+    setCompletedCrop(null);
+    setCrop({ aspect: 1 });
+    setProcess(false);
+    setDescription("");
+    setSendTo([]);
   };
 
   // Hàm lưu ảnh đã cắt
@@ -362,12 +403,7 @@ const ImageFromDevice = ({ user, signInKey, setPage, handleReloadFeeds }) => {
       const data = await apiResponse.json();
 
       if (apiResponse.ok) {
-        setImgSrc("");
-        setCompletedCrop(null);
-        setCrop({ aspect: 1 });
-        setProcess(false);
-        setDescription("");
-        setSendTo([]);
+        reinitState();
         await handleReloadFeeds();
       } else {
         throw new Error(data.message || "Failed to save photo");
@@ -504,7 +540,12 @@ const ImageFromDevice = ({ user, signInKey, setPage, handleReloadFeeds }) => {
   );
 };
 
-export default function CreateFeed({ user, signInKey, handleReloadFeeds }) {
+export default function CreateFeed({
+  user,
+  signInKey,
+  handleReloadFeeds,
+  turnOffCamera,
+}) {
   const [page, setPage] = useState("camera");
   return (
     <div>
@@ -514,6 +555,7 @@ export default function CreateFeed({ user, signInKey, handleReloadFeeds }) {
           signInKey={signInKey}
           setPage={setPage}
           handleReloadFeeds={handleReloadFeeds}
+          turnOffCamera={turnOffCamera}
         />
       ) : (
         <ImageFromCamera
@@ -521,6 +563,7 @@ export default function CreateFeed({ user, signInKey, handleReloadFeeds }) {
           signInKey={signInKey}
           setPage={setPage}
           handleReloadFeeds={handleReloadFeeds}
+          turnOffCamera={turnOffCamera}
         />
       )}
     </div>

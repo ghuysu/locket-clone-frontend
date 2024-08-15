@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import '../index.css';
+import React, { useEffect, useRef } from "react";
+import gsap from "gsap";
+import "../index.css";
 
 const PopupLoading = () => {
   const loadingRef = useRef(null);
@@ -11,13 +11,18 @@ const PopupLoading = () => {
       rotation: 370,
       repeat: -1,
       ease: "linear",
-      duration: 1
+      duration: 1,
     });
   }, []);
 
   return (
-    <div className='absolute top-0 left-0 h-svh w-svw bg-[rgba(0,0,0,0.8)] flex justify-center items-center'>
-        <img ref={loadingRef} className='w-20' src="/public/assets/images/loading.png" alt="Loading"/>
+    <div className="absolute top-0 left-0 h-svh w-svw bg-[rgba(0,0,0,0.8)] flex justify-center items-center z-50">
+      <img
+        ref={loadingRef}
+        className="w-20"
+        src="/public/assets/images/loading.png"
+        alt="Loading"
+      />
     </div>
   );
 };

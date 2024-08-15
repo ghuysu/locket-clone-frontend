@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import NumberNotification from "./NumberNotification";
 
 const Navbar = ({ user, setPage, signoutHandler, setSearchKey }) => {
   const logoRef = useRef(null);
@@ -9,9 +10,16 @@ const Navbar = ({ user, setPage, signoutHandler, setSearchKey }) => {
   const searchBtnRef = useRef(null);
   const logoBtnRef = useRef(null);
 
+  const [numberNotification, setNumberNotification] = useState(
+    user.receivedInviteList.length
+  );
   const [showPopup, setShowPopup] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [input, setInput] = useState("");
+
+  useEffect(() => {
+    setNumberNotification(user.receivedInviteList.length);
+  }, [user]);
 
   useEffect(() => {
     const logo = logoRef.current;
@@ -139,6 +147,11 @@ const Navbar = ({ user, setPage, signoutHandler, setSearchKey }) => {
           ref={userRef}
           className=" max-w-[200px] relative flex items-center mr-5 bg-[#151516] px-3 py-1 rounded-full cursor-pointer z-50"
         >
+          {numberNotification > 0 && (
+            <div className="absolute top-0 right-0 z-50">
+              <NumberNotification number={numberNotification} />
+            </div>
+          )}
           <p className="text-sm text-gray-400 font-medium mr-2">{`${user.fullname.firstname} ${user.fullname.lastname}`}</p>
           <img
             className="w-9 h-9 rounded-full border-2 border-yellow-400"

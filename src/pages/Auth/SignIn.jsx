@@ -26,6 +26,7 @@ const SignInPage = ({
   setExpiryDay,
   setSignInKey,
   setUser,
+  setJustSignIn,
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -126,6 +127,7 @@ const SignInPage = ({
           Cookies.remove("rememberMePassword");
         }
         setUser(data.metadata.user);
+        setJustSignIn(false);
         setExpiryDay(data.metadata.expiryDay);
         setSignInKey(data.metadata.signInKey);
       }
@@ -224,6 +226,7 @@ export default function SignIn({
   setExpiryDay,
   setSignInKey,
   setUser,
+  setJustSignIn,
 }) {
   const [page, setPage] = useState("signin");
   const handleBackSignInClick = () => {
@@ -240,6 +243,7 @@ export default function SignIn({
           setUser={setUser}
           setSignInKey={setSignInKey}
           setExpiryDay={setExpiryDay}
+          setJustSignIn={setJustSignIn}
         />
       )}
     </div>
