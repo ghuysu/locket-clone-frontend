@@ -5,6 +5,17 @@ import gsap from "gsap";
 import CreateFeed from "./CreateFeed";
 import Feed from "../../components/Feed";
 import ReactBar from "../../components/ReactBar";
+import IO from "socket.io-client";
+
+const socket = IO("https://skn7vgp9-9876.asse.devtunnels.ms");
+
+const isVisible = (visibility, userId) => {
+  if (Array.isArray(visibility)) {
+    return visibility.includes(userId);
+  } else {
+    return true;
+  }
+};
 
 const Main = ({ user, signInKey, signout, setChat }) => {
   const contentRef = useRef(null);
@@ -29,6 +40,22 @@ const Main = ({ user, signInKey, signout, setChat }) => {
     fullname: "Everyone",
   });
   const [turnOffCamera, setTurnOffCamera] = useState(false);
+
+  useEffect(() => {
+    console.log(user && feeds.length > 0);
+    if (user) {
+      const handleSocketEvent = async (data) => {
+        console.log(data);
+      };
+
+      socket.on("feed", handleSocketEvent);
+
+      // Hủy đăng ký sự kiện khi component unmount
+      return () => {
+        socket.off("feed", handleSocketEvent);
+      };
+    }
+  }, [user]);
 
   useEffect(() => {
     if (page === 0) {
@@ -98,9 +125,7 @@ const Main = ({ user, signInKey, signout, setChat }) => {
       try {
         if (feeds.length == 0) setLoading(true);
         const response = await fetch(
-          `https://skn7vgp9-9876.asse.devtunnels.ms/feed/everyone?page=${
-            Math.ceil(feeds.length / 20) + 1
-          }`,
+          `https://skn7vgp9-9876.asse.devtunnels.ms/feed/everyone?skip=${feeds.length}`,
           {
             method: "GET",
             headers: {
@@ -111,6 +136,7 @@ const Main = ({ user, signInKey, signout, setChat }) => {
           }
         );
         const data = await response.json();
+        console.log(data);
         if (response.ok) {
           if (data.metadata.length == 0) {
             setMaxFeed(feeds.length);
@@ -136,9 +162,7 @@ const Main = ({ user, signInKey, signout, setChat }) => {
       try {
         if (feeds.length == 0) setLoading(true);
         const response = await fetch(
-          `https://skn7vgp9-9876.asse.devtunnels.ms/feed/certain/${userId}?page=${
-            Math.ceil(feeds.length / 20) + 1
-          }`,
+          `https://skn7vgp9-9876.asse.devtunnels.ms/feed/certain/${userId}?skip=${feeds.length}`,
           {
             method: "GET",
             headers: {

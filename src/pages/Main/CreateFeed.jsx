@@ -23,7 +23,6 @@ const ImageFromCamera = ({
   const [description, setDescription] = useState("");
   const [sendTo, setSendTo] = useState([]);
 
-  console.log({ turnOffCamera });
   useEffect(() => {
     if (turnOffCamera === true) {
       handleRetakePhoto();
