@@ -68,8 +68,6 @@ const ChatScreen = ({ chat, selectedFriendId, setChat, user, signInKey }) => {
       })
       .map((message) => message._id);
 
-    console.log(unSeenMessageIds);
-
     if (unSeenMessageIds.length > 0) {
       const markMessagesAsRead = async () => {
         try {
@@ -106,7 +104,9 @@ const ChatScreen = ({ chat, selectedFriendId, setChat, user, signInKey }) => {
       setLoadingMoreMessages(true);
 
       const response = await fetch(
-        `https://skn7vgp9-9876.asse.devtunnels.ms/message/certain/${selectedChat.friendId}?skip=${selectedChat.messages.length}`,
+        `${import.meta.env.VITE_API_URL}/message/certain/${
+          selectedChat.friendId
+        }?skip=${selectedChat.messages.length}`,
         {
           method: "GET",
           headers: {
@@ -145,7 +145,7 @@ const ChatScreen = ({ chat, selectedFriendId, setChat, user, signInKey }) => {
   const readMessages = async (messageIds) => {
     try {
       const response = await fetch(
-        `https://skn7vgp9-9876.asse.devtunnels.ms/message/read`,
+        `${import.meta.env.VITE_API_URL}/message/read`,
         {
           method: "PATCH",
           headers: {
@@ -188,7 +188,7 @@ const ChatScreen = ({ chat, selectedFriendId, setChat, user, signInKey }) => {
     try {
       setSending(true);
       const response = await fetch(
-        `https://skn7vgp9-9876.asse.devtunnels.ms/message/${selectedChat.friendId}`,
+        `${import.meta.env.VITE_API_URL}/message/${selectedChat.friendId}`,
         {
           method: "POST",
           headers: {

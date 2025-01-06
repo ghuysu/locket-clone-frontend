@@ -55,18 +55,15 @@ const MainPage = ({
       setLoading(true);
       const key = searchKey.replace(/ /g, "%20");
       try {
-        const response = await fetch(
-          `https://skn7vgp9-9876.asse.devtunnels.ms/search/${key}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              "api-key": "ABC-XYZ-WWW",
-              authorization: signInKey,
-              "user-id": user?._id,
-            },
-          }
-        );
+        const response = await fetch(`http://localhost:9876/search/${key}`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": "ABC-XYZ-WWW",
+            authorization: signInKey,
+            "user-id": user?._id,
+          },
+        });
 
         const data = await response.json();
 

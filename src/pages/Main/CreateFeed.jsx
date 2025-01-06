@@ -82,7 +82,7 @@ const ImageFromCamera = ({
             formData.append("visibility", visibility);
 
             const apiResponse = await fetch(
-              "https://skn7vgp9-9876.asse.devtunnels.ms/feed/create",
+              `${import.meta.env.VITE_API_URL}/feed/create`,
               {
                 method: "POST",
                 headers: {
@@ -386,18 +386,15 @@ const ImageFromDevice = ({
       const visibility = sendTo.length === 0 ? "everyone" : sendTo.join(", ");
       formData.append("visibility", visibility);
 
-      const apiResponse = await fetch(
-        "https://skn7vgp9-9876.asse.devtunnels.ms/feed/create",
-        {
-          method: "POST",
-          headers: {
-            "api-key": "ABC-XYZ-WWW",
-            authorization: signInKey,
-            "user-id": user?._id,
-          },
-          body: formData,
-        }
-      );
+      const apiResponse = await fetch("http://localhost:9876/feed/create", {
+        method: "POST",
+        headers: {
+          "api-key": "ABC-XYZ-WWW",
+          authorization: signInKey,
+          "user-id": user?._id,
+        },
+        body: formData,
+      });
 
       const data = await apiResponse.json();
 

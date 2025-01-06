@@ -26,7 +26,7 @@ function Email({ setCode, handleBackClick, setEmail, email }) {
     setError("");
     try {
       const response = await fetch(
-        "https://skn7vgp9-9876.asse.devtunnels.ms/access/check-email",
+        `${import.meta.env.VITE_API_URL}/access/check-email`,
         {
           method: "POST",
           headers: {

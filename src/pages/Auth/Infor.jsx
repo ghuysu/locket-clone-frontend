@@ -79,7 +79,7 @@ const Infor = ({ verifiedEmail, setPage }) => {
     setError("");
     try {
       const response = await fetch(
-        "https://skn7vgp9-9876.asse.devtunnels.ms/access/sign-up",
+        `${import.meta.env.VITE_API_URL}/access/sign-up`,
         {
           method: "POST",
           headers: {

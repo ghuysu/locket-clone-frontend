@@ -7,7 +7,7 @@ import Feed from "../../components/Feed";
 import ReactBar from "../../components/ReactBar";
 import IO from "socket.io-client";
 
-const socket = IO("https://skn7vgp9-9876.asse.devtunnels.ms");
+const socket = IO(`${import.meta.env.VITE_API_URL}`);
 
 const isVisible = (visibility, userId) => {
   if (Array.isArray(visibility)) {
@@ -82,7 +82,7 @@ const Main = ({ user, signInKey, signout, setChat }) => {
     try {
       setSendingComment(true);
       const response = await fetch(
-        `https://skn7vgp9-9876.asse.devtunnels.ms/message/${friendId}`,
+        `${import.meta.env.VITE_API_URL}/message/${friendId}`,
         {
           method: "POST",
           headers: {
@@ -125,7 +125,7 @@ const Main = ({ user, signInKey, signout, setChat }) => {
       try {
         if (feeds.length == 0) setLoading(true);
         const response = await fetch(
-          `https://skn7vgp9-9876.asse.devtunnels.ms/feed/everyone?skip=${feeds.length}`,
+          `${import.meta.env.VITE_API_URL}/feed/everyone?skip=${feeds.length}`,
           {
             method: "GET",
             headers: {
@@ -162,7 +162,9 @@ const Main = ({ user, signInKey, signout, setChat }) => {
       try {
         if (feeds.length == 0) setLoading(true);
         const response = await fetch(
-          `https://skn7vgp9-9876.asse.devtunnels.ms/feed/certain/${userId}?skip=${feeds.length}`,
+          `${import.meta.env.VITE_API_URL}/feed/certain/${userId}?skip=${
+            feeds.length
+          }`,
           {
             method: "GET",
             headers: {
@@ -296,7 +298,7 @@ const Main = ({ user, signInKey, signout, setChat }) => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://skn7vgp9-9876.asse.devtunnels.ms/feed/${feedId}`,
+        `${import.meta.env.VITE_API_URL}/feed/${feedId}`,
         {
           method: "POST",
           headers: {
@@ -338,7 +340,7 @@ const Main = ({ user, signInKey, signout, setChat }) => {
     try {
       setLoading(true);
       const response = await fetch(
-        `https://skn7vgp9-9876.asse.devtunnels.ms/feed/${currentFeed._id}`,
+        `${import.meta.env.VITE_API_URL}/feed/${currentFeed._id}`,
         {
           method: "PATCH",
           headers: {
@@ -390,7 +392,7 @@ const Main = ({ user, signInKey, signout, setChat }) => {
       setProcessing(true);
       setLoading(true);
       const response = await fetch(
-        `https://skn7vgp9-9876.asse.devtunnels.ms/feed/${currentFeed._id}`,
+        `${import.meta.env.VITE_API_URL}/feed/${currentFeed._id}`,
         {
           method: "DELETE",
           headers: {

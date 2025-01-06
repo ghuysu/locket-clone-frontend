@@ -5,7 +5,7 @@ import MainPage from "./pages/MainPage";
 import Cookies from "js-cookie";
 import IO from "socket.io-client";
 
-const socket = IO("https://skn7vgp9-9876.asse.devtunnels.ms");
+const socket = IO(`${import.meta.env.VITE_API_URL}`);
 
 function App() {
   const [firstLoad, setFirstLoad] = useState(true);
@@ -176,7 +176,7 @@ function App() {
   const getUserInfor = async () => {
     try {
       const response = await fetch(
-        `https://skn7vgp9-9876.asse.devtunnels.ms/search/user/${user._id}`,
+        `${import.meta.env.VITE_API_URL}/search/user/${user._id}`,
         {
           method: "GET",
           headers: {
@@ -199,7 +199,7 @@ function App() {
   const getChat = async () => {
     try {
       const response = await fetch(
-        `https://skn7vgp9-9876.asse.devtunnels.ms/message/all`,
+        `${import.meta.env.VITE_API_URL}/message/all`,
         {
           method: "GET",
           headers: {
@@ -221,7 +221,7 @@ function App() {
 
   const signoutHandler = async () => {
     try {
-      await fetch("https://skn7vgp9-9876.asse.devtunnels.ms/access/sign-out", {
+      await fetch(`${import.meta.env.VITE_API_URL}/access/sign-out`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

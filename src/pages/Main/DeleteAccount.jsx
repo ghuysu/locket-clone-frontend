@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
-import gsap from 'gsap';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
-import Cookies from 'js-cookie';
-import PasswordInput from '../../components/PasswordInput';
+import React, { useEffect, useState, useRef } from "react";
+import gsap from "gsap";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
+import Cookies from "js-cookie";
+import PasswordInput from "../../components/PasswordInput";
 
 const DeleteAccount = ({ user, signInKey, signout }) => {
-  const [fullname, setFullname] = useState('');
-  const [password, setPassword] = useState('');
+  const [fullname, setFullname] = useState("");
+  const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   const contentRef = useRef(null);
 
@@ -21,7 +21,10 @@ const DeleteAccount = ({ user, signInKey, signout }) => {
   }, []);
 
   useEffect(() => {
-    if (fullname === `${user.fullname.firstname} ${user.fullname.lastname}` && password.length !== 0) {
+    if (
+      fullname === `${user.fullname.firstname} ${user.fullname.lastname}` &&
+      password.length !== 0
+    ) {
       setConfirm(true);
     } else {
       setConfirm(false);
@@ -37,20 +40,20 @@ const DeleteAccount = ({ user, signInKey, signout }) => {
   };
 
   const deleteAccountHandler = async () => {
-    setError('');
+    setError("");
     setProcessing(true);
     try {
       const signInResponse = await fetch(
-        'https://skn7vgp9-9876.asse.devtunnels.ms/access/sign-in',
+        `${import.meta.env.VITE_API_URL}/access/sign-in`,
         {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'api-key': 'ABC-XYZ-WWW',
-            'Content-Type': 'application/json',
+            "api-key": "ABC-XYZ-WWW",
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             email: user.email,
-            password: password
+            password: password,
           }),
         }
       );
@@ -58,81 +61,101 @@ const DeleteAccount = ({ user, signInKey, signout }) => {
       if (!signInResponse.ok) {
         const signInData = await signInResponse.json();
         switch (signInData.message) {
-          case 'API key is required':
-            setError('API key is required.');
+          case "API key is required":
+            setError("API key is required.");
             break;
-          case 'API key is incorrect':
-            setError('API key is incorrect.');
+          case "API key is incorrect":
+            setError("API key is incorrect.");
             break;
-          case 'Data is required':
-            setError('Data is required.');
+          case "Data is required":
+            setError("Data is required.");
             break;
-          case 'Email is not registered':
-            setError('Email is not registered.');
+          case "Email is not registered":
+            setError("Email is not registered.");
             break;
-          case 'Password is incorrect':
-            setError('Password is incorrect.');
+          case "Password is incorrect":
+            setError("Password is incorrect.");
             break;
           default:
-            setError('An unknown error occurred.');
+            setError("An unknown error occurred.");
         }
         return;
       }
 
-      const deleteResponse = await fetch('https://skn7vgp9-9876.asse.devtunnels.ms/account/delete', {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'api-key': 'ABC-XYZ-WWW',
-          'authorization': signInKey,
-          'user-id': user?._id
+      const deleteResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/account/delete`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "api-key": "ABC-XYZ-WWW",
+            authorization: signInKey,
+            "user-id": user?._id,
+          },
         }
-      });
+      );
 
       if (!deleteResponse.ok) {
         const deleteData = await deleteResponse.json();
-        setError(deleteData.message || 'Failed to delete account.');
+        setError(deleteData.message || "Failed to delete account.");
         return;
       }
 
       setSuccess(true);
       setTimeout(() => {
-        Cookies.remove('rememberMeEmail');
-        Cookies.remove('rememberMePassword');
+        Cookies.remove("rememberMeEmail");
+        Cookies.remove("rememberMePassword");
         signout();
       }, 2000);
-
     } catch (error) {
-      console.error('Error:', error);
-      setError('An error occurred while deleting the account.');
+      console.error("Error:", error);
+      setError("An error occurred while deleting the account.");
     } finally {
       setProcessing(false);
     }
   };
 
   return (
-    <div className="flex justify-center items-center bg-transparent" style={{ height: 'calc(100vh - 64px)' }}>
-      <div ref={contentRef} className="flex flex-col justify-center items-center bg-black w-[500px] h-[400px] p-8 rounded-3xl shadow-2xl border-t-4 border-yellow-500">
+    <div
+      className="flex justify-center items-center bg-transparent"
+      style={{ height: "calc(100vh - 64px)" }}
+    >
+      <div
+        ref={contentRef}
+        className="flex flex-col justify-center items-center bg-black w-[500px] h-[400px] p-8 rounded-3xl shadow-2xl border-t-4 border-yellow-500"
+      >
         <h1 className="text-3xl bold text-red-500">Delete Account</h1>
-        <p className="text-xs text-zinc-600 mb-14 mt5">Enter your fullname along with your password <br></br> correctly to be processed</p>
+        <p className="text-xs text-zinc-600 mb-14 mt5">
+          Enter your fullname along with your password <br></br> correctly to be
+          processed
+        </p>
         <div>
           <Input
-            text={'Fullname'}
+            text={"Fullname"}
             handleChange={handleChange}
-            name={'fullname'}
+            name={"fullname"}
             value={fullname}
           />
           <div className="pb-3"></div>
-          <PasswordInput text={"Your password"} handleChange={handlePasswordChange} name={"password"} value={password} />
-          <div className='mt-10'></div>
+          <PasswordInput
+            text={"Your password"}
+            handleChange={handlePasswordChange}
+            name={"password"}
+            value={password}
+          />
+          <div className="mt-10"></div>
           <Button
-            text={processing ? "Processing..." : "Delete your account"} 
-            handleClick={(!processing && confirm) ? deleteAccountHandler : () => {}} 
+            text={processing ? "Processing..." : "Delete your account"}
+            handleClick={
+              !processing && confirm ? deleteAccountHandler : () => {}
+            }
             isActive={!processing && confirm}
           />
         </div>
         {success && (
-          <p className="text-green-500 text-base pt-4 pb-4">Delete account successfully. Goodbye!</p>
+          <p className="text-green-500 text-base pt-4 pb-4">
+            Delete account successfully. Goodbye!
+          </p>
         )}
         {error && <p className="text-red-500 pt-4">{error}</p>}
       </div>

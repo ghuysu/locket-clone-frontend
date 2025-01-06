@@ -86,7 +86,7 @@ const UserProfile = ({ user, setUser, signInKey, setLoading }) => {
     try {
       console.log(friendId);
       const response = await fetch(
-        "https://skn7vgp9-9876.asse.devtunnels.ms/account/friend/accept",
+        "http://localhost:9876/account/friend/accept",
         {
           method: "POST",
           headers: {
@@ -116,7 +116,7 @@ const UserProfile = ({ user, setUser, signInKey, setLoading }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://skn7vgp9-9876.asse.devtunnels.ms/account/friend/remove-invite-receiver",
+        "http://localhost:9876/account/friend/remove-invite-receiver",
         {
           method: "POST",
           headers: {
@@ -146,7 +146,7 @@ const UserProfile = ({ user, setUser, signInKey, setLoading }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        "https://skn7vgp9-9876.asse.devtunnels.ms/account/friend/remove-invite",
+        "http://localhost:9876/account/friend/remove-invite",
         {
           method: "POST",
           headers: {
@@ -178,7 +178,7 @@ const UserProfile = ({ user, setUser, signInKey, setLoading }) => {
 
     try {
       const response = await fetch(
-        "https://skn7vgp9-9876.asse.devtunnels.ms/account/friend/remove",
+        "http://localhost:9876/account/friend/remove",
         {
           method: "POST",
           headers: {

@@ -56,7 +56,7 @@ export default function EditBirthday({ user, setUser, signInKey }) {
     setError("");
     try {
       const response = await fetch(
-        "https://skn7vgp9-9876.asse.devtunnels.ms/account/birthday",
+        `${import.meta.env.VITE_API_URL}/account/birthday`,
         {
           method: "PATCH",
           headers: {
