@@ -34,6 +34,8 @@ const SignInPage = ({
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [isCopiedEmail, setCopiedEmail] = useState(false);
+  const [isCopiedPassword, setCopiedPassword] = useState(false);
 
   const contentRef = useRef(null);
 
@@ -147,6 +149,41 @@ const SignInPage = ({
         className="pt-28 flex flex-col items-center justify-center"
       >
         <p className="bold text-4xl pb-16 text-gray">Sign in</p>
+
+        <div className="bg-zinc-900 p-4 rounded-lg flex flex-col items-start">
+          <p className="text-sm">Fort test, you can use this account below:</p>
+          <p className="text-xs pl-3 pt-3">
+            Email:{" "}
+            <span className="bg-zinc-700">socialmediapbl6@gmail.com</span>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText("socialmediapbl6@gmail.com");
+                setCopiedEmail(true);
+                setTimeout(() => {
+                  setCopiedEmail(false);
+                }, 1000);
+              }}
+              className="ml-2 bg-zinc-300 p-1 rounded-lg text-black hover:scale-110 duration-100"
+            >
+              {isCopiedEmail ? "Copied" : "Copy"}
+            </button>
+          </p>
+          <p className="text-xs pl-3 pt-2">
+            Password: <span className="bg-zinc-700">Test_123</span>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText("Test_123");
+                setCopiedPassword(true);
+                setTimeout(() => {
+                  setCopiedPassword(false);
+                }, 1000);
+              }}
+              className="ml-2 bg-zinc-300 p-1 rounded-lg text-black hover:scale-110 duration-100"
+            >
+              {isCopiedPassword ? "Copied" : "Copy"}
+            </button>
+          </p>
+        </div>
         <div className="mt-4">
           <p className="text-left text-gray text-sm ml-2 pb-1">Email</p>
           <Input
