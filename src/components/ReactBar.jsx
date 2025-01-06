@@ -111,7 +111,7 @@ const ReactBar = ({
               <img
                 ref={likeRef}
                 className="w-8 -translate-y-[3px]"
-                src="/public/assets/images/like.png"
+                src="/assets/images/like.png"
               />
               <p className="text-gray text-sm bold">
                 {feed?.reactionStatistic?.like}
@@ -132,7 +132,7 @@ const ReactBar = ({
               <img
                 ref={loveRef}
                 className="w-8"
-                src="/public/assets/images/love.png"
+                src="/assets/images/love.png"
               />
               <p className="text-gray text-sm bold">
                 {feed?.reactionStatistic?.love}
@@ -153,7 +153,7 @@ const ReactBar = ({
               <img
                 ref={hahaRef}
                 className="w-8"
-                src="/public/assets/images/haha.png"
+                src="/assets/images/haha.png"
               />
               <p className="text-gray text-sm bold">
                 {feed?.reactionStatistic?.haha}
@@ -171,11 +171,7 @@ const ReactBar = ({
                     }
               }
             >
-              <img
-                ref={wowRef}
-                className="w-8"
-                src="/public/assets/images/wow.png"
-              />
+              <img ref={wowRef} className="w-8" src="/assets/images/wow.png" />
               <p className="text-gray text-sm bold">
                 {feed?.reactionStatistic?.wow}
               </p>
@@ -192,11 +188,7 @@ const ReactBar = ({
                     }
               }
             >
-              <img
-                ref={sadRef}
-                className="w-8"
-                src="/public/assets/images/sad.png"
-              />
+              <img ref={sadRef} className="w-8" src="/assets/images/sad.png" />
               <p className="text-gray text-sm bold">
                 {feed?.reactionStatistic?.sad}
               </p>
@@ -216,7 +208,7 @@ const ReactBar = ({
               <img
                 ref={angryRef}
                 className="w-8"
-                src="/public/assets/images/angry.png"
+                src="/assets/images/angry.png"
               />
               <p className="text-gray text-sm bold">
                 {feed?.reactionStatistic?.angry}
@@ -224,9 +216,7 @@ const ReactBar = ({
             </div>
           </div>
           <Button
-            text={
-              <img src="/public/assets/images/comment.png" className="h-6" />
-            }
+            text={<img src="/assets/images/comment.png" className="h-6" />}
             handleClick={() => {
               setIsCommenting((oldV) => !oldV);
             }}
@@ -245,9 +235,7 @@ const ReactBar = ({
             }}
           />
           <Button
-            text={
-              <img className="w-5" src="/public/assets/images/cancel.png" />
-            }
+            text={<img className="w-5" src="/assets/images/cancel.png" />}
             isActive={true}
             handleClick={() => {
               setIsCommenting(false);
@@ -260,10 +248,10 @@ const ReactBar = ({
                 <img
                   ref={loadingRef}
                   className="w-7"
-                  src="/public/assets/images/loadingCircle.png"
+                  src="/assets/images/loadingCircle.png"
                 />
               ) : (
-                <img className="w-7" src="/public/assets/images/send.png" />
+                <img className="w-7" src="/assets/images/send.png" />
               )
             }
             isActive={true}
@@ -299,7 +287,7 @@ const ReactBar = ({
                 <div className="flex justify-end">
                   <img
                     className="w-4"
-                    src={`/public/assets/images/${reaction.icon}.png`}
+                    src={`/assets/images/${reaction.icon}.png`}
                   />
                 </div>
               </div>
@@ -316,8 +304,8 @@ const ReactBar = ({
                 className={`w-5 ${!editing && "ml-1"}`}
                 src={
                   editing
-                    ? "/public/assets/images/cancel.png"
-                    : "/public/assets/images/edit.png"
+                    ? "/assets/images/cancel.png"
+                    : "/assets/images/edit.png"
                 }
               />
             }
@@ -341,8 +329,8 @@ const ReactBar = ({
                 className={`w-5 mx-[2px]`}
                 src={
                   editing
-                    ? "/public/assets/images/accept.png"
-                    : "/public/assets/images/delete.png"
+                    ? "/assets/images/accept.png"
+                    : "/assets/images/delete.png"
                 }
               />
             }

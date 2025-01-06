@@ -152,7 +152,7 @@ const ImageFromCamera = ({
           <div className="absolute z-0 inset-0 rounded-[80px] border-[1px] border-yellow-500 overflow-hidden">
             {turnOffCamera ? (
               <img
-                src={"/public/assets/images/noneCamera.png"}
+                src={"/assets/images/noneCamera.png"}
                 alt="Avatar Preview"
                 className="w-full h-full object-cover"
                 style={{ transform: "scaleX(-1)" }}
@@ -197,7 +197,7 @@ const ImageFromCamera = ({
                   ) : (
                     <img
                       style={{ padding: "0px 20px", width: "73px" }}
-                      src="/public/assets/images/send.png"
+                      src="/assets/images/send.png"
                     />
                   )
                 }
@@ -208,7 +208,7 @@ const ImageFromCamera = ({
                 text={
                   <img
                     style={{ padding: "0px 20px", width: "70px" }}
-                    src="/public/assets/images/retake.png"
+                    src="/assets/images/retake.png"
                   />
                 }
                 handleClick={handleRetakePhoto}
@@ -222,7 +222,7 @@ const ImageFromCamera = ({
                     fullname: {
                       firstname: "All",
                     },
-                    profileImageUrl: "/public/assets/images/friend.png",
+                    profileImageUrl: "/assets/images/friend.png",
                   }}
                   isActive={sendTo.length === 0 ? true : false}
                 />
@@ -251,7 +251,7 @@ const ImageFromCamera = ({
               text={
                 <img
                   style={{ padding: "0px 20px", width: "70px" }}
-                  src="/public/assets/images/album.png"
+                  src="/assets/images/album.png"
                 />
               }
             />
@@ -472,7 +472,7 @@ const ImageFromDevice = ({
             text={
               <img
                 style={{ padding: "0px 20px", width: "73px" }}
-                src="/public/assets/images/album.png"
+                src="/assets/images/album.png"
               />
             }
           />
@@ -482,7 +482,7 @@ const ImageFromDevice = ({
             text={
               <img
                 style={{ padding: "0px 20px", width: "73px" }}
-                src="/public/assets/images/camera.png"
+                src="/assets/images/camera.png"
               />
             }
           />
@@ -496,7 +496,7 @@ const ImageFromDevice = ({
                 ) : (
                   <img
                     style={{ padding: "0px 20px", width: "73px" }}
-                    src="/public/assets/images/send.png"
+                    src="/assets/images/send.png"
                   />
                 )
               }
@@ -512,7 +512,7 @@ const ImageFromDevice = ({
                   fullname: {
                     firstname: "All",
                   },
-                  profileImageUrl: "/public/assets/images/friend.png",
+                  profileImageUrl: "/assets/images/friend.png",
                 }}
                 isActive={sendTo.length === 0 ? true : false}
               />

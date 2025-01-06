@@ -11,14 +11,11 @@ const ProfileBar = ({ user }) => {
       </div>
       <div className="flex flex-col p-5 space-y-1 justify-center h-8 w-50 bg-yellow-500 bg-opacity-90 rounded-[30px]">
         <div className="flex items-center justify-start">
-          <img className="w-4 mr-2" src={"/public/assets/images/email.png"} />
+          <img className="w-4 mr-2" src={"/assets/images/email.png"} />
           <p className="text-zinc-900 semibold text-[10px]">{user.email}</p>
         </div>
         <div className="flex items-center justify-start">
-          <img
-            className="w-4 mr-2"
-            src={"/public/assets/images/birthday.png"}
-          />
+          <img className="w-4 mr-2" src={"/assets/images/birthday.png"} />
           <p className="text-zinc-900 semibold text-[10px] mt-1">
             {user.birthday}
           </p>

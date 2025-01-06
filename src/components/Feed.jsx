@@ -91,7 +91,7 @@ const Feed = ({ feed, user, editing, setEditDescription, setEditSendTo }) => {
                   fullname: {
                     firstname: "All",
                   },
-                  profileImageUrl: "/public/assets/images/friend.png",
+                  profileImageUrl: "/assets/images/friend.png",
                 }}
                 isActive={sendTo.length === 0}
               />

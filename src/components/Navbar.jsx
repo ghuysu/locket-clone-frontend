@@ -106,7 +106,7 @@ const Navbar = ({ user, setPage, signoutHandler, setSearchKey }) => {
         <img
           ref={logoRef}
           className="w-8"
-          src="/public/assets/images/logo.png"
+          src="/assets/images/logo.png"
           alt="Logo"
         />
         <p ref={nameRef} className="text-white font-bold text-2xl pl-4">
@@ -129,7 +129,7 @@ const Navbar = ({ user, setPage, signoutHandler, setSearchKey }) => {
         >
           <img
             className="w-5"
-            src="/public/assets/images/search-icon.png"
+            src="/assets/images/search-icon.png"
             alt="Search Icon"
           />
         </div>
