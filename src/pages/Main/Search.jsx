@@ -143,7 +143,7 @@ const Search = ({
     try {
       console.log(friendId);
       const response = await fetch(
-        "http://localhost:9876/account/friend/accept",
+        `${import.meta.env.VITE_API_URL}/account/friend/accept`,
         {
           method: "POST",
           headers: {
@@ -173,7 +173,7 @@ const Search = ({
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:9876/account/friend/remove-invite-receiver",
+        `${import.meta.env.VITE_API_URL}/account/friend/remove-invite-receiver`,
         {
           method: "POST",
           headers: {
@@ -203,7 +203,7 @@ const Search = ({
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:9876/account/friend/send-invite",
+        `${import.meta.env.VITE_API_URL}/account/friend/send-invite`,
         {
           method: "POST",
           headers: {
@@ -233,7 +233,7 @@ const Search = ({
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:9876/account/friend/remove-invite",
+        `${import.meta.env.VITE_API_URL}/account/friend/remove-invite`,
         {
           method: "POST",
           headers: {
@@ -265,7 +265,7 @@ const Search = ({
 
     try {
       const response = await fetch(
-        "http://localhost:9876/account/friend/remove",
+        `${import.meta.env.VITE_API_URL}/account/friend/remove`,
         {
           method: "POST",
           headers: {
