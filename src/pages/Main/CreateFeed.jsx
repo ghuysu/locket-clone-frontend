@@ -386,15 +386,18 @@ const ImageFromDevice = ({
       const visibility = sendTo.length === 0 ? "everyone" : sendTo.join(", ");
       formData.append("visibility", visibility);
 
-      const apiResponse = await fetch("http://localhost:9876/feed/create", {
-        method: "POST",
-        headers: {
-          "api-key": "ABC-XYZ-WWW",
-          authorization: signInKey,
-          "user-id": user?._id,
-        },
-        body: formData,
-      });
+      const apiResponse = await fetch(
+        `${import.meta.env.VITE_API_URL}/feed/create`,
+        {
+          method: "POST",
+          headers: {
+            "api-key": "ABC-XYZ-WWW",
+            authorization: signInKey,
+            "user-id": user?._id,
+          },
+          body: formData,
+        }
+      );
 
       const data = await apiResponse.json();
 

@@ -86,7 +86,7 @@ const UserProfile = ({ user, setUser, signInKey, setLoading }) => {
     try {
       console.log(friendId);
       const response = await fetch(
-        "http://localhost:9876/account/friend/accept",
+        `${import.meta.env.VITE_API_URL}/account/friend/accept`,
         {
           method: "POST",
           headers: {
@@ -116,7 +116,7 @@ const UserProfile = ({ user, setUser, signInKey, setLoading }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:9876/account/friend/remove-invite-receiver",
+        `${import.meta.env.VITE_API_URL}/account/friend/remove-invite-receiver`,
         {
           method: "POST",
           headers: {
@@ -146,7 +146,7 @@ const UserProfile = ({ user, setUser, signInKey, setLoading }) => {
     setLoading(true);
     try {
       const response = await fetch(
-        "http://localhost:9876/account/friend/remove-invite",
+        `${import.meta.env.VITE_API_URL}/account/friend/remove-invite`,
         {
           method: "POST",
           headers: {
@@ -178,7 +178,7 @@ const UserProfile = ({ user, setUser, signInKey, setLoading }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:9876/account/friend/remove",
+        `${import.meta.env.VITE_API_URL}/account/friend/remove`,
         {
           method: "POST",
           headers: {

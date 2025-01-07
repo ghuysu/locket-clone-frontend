@@ -55,15 +55,18 @@ const MainPage = ({
       setLoading(true);
       const key = searchKey.replace(/ /g, "%20");
       try {
-        const response = await fetch(`http://localhost:9876/search/${key}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "api-key": "ABC-XYZ-WWW",
-            authorization: signInKey,
-            "user-id": user?._id,
-          },
-        });
+        const response = await fetch(
+          `${import.meta.env.VITE_API_URL}/search/${key}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "api-key": "ABC-XYZ-WWW",
+              authorization: signInKey,
+              "user-id": user?._id,
+            },
+          }
+        );
 
         const data = await response.json();
 
